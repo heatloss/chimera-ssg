@@ -13,6 +13,12 @@
 # - Apache follows the site/ symlink transparently
 # - When a new release deploys, the symlink swaps and traffic shifts instantly
 
+# Allow access to deployer.php from GitHub Actions (Apache 2.4+ syntax)
+# Without this, some hosts block requests from cloud provider IPs
+<Files "deployer.php">
+    Require all granted
+</Files>
+
 RewriteEngine On
 RewriteBase /
 
