@@ -8,10 +8,16 @@
 # 2. Upload to your domain's web root (same directory as deployer.php)
 #
 # HOW IT WORKS:
-# - All requests are rewritten to the site/ subdirectory
+# - Requests are first checked against the extras/ directory (creator-managed content)
+# - If not found in extras/, requests are rewritten to site/ (deployed content)
 # - deployer.php is excluded so it remains accessible
 # - Apache follows the site/ symlink transparently
 # - When a new release deploys, the symlink swaps and traffic shifts instantly
+#
+# CUSTOM CONTENT:
+# Creators can upload files to extras/ via FTP. These persist across deploys.
+# Example: extras/about/index.html will be served at /about
+# This allows creators to add custom pages without modifying the CMS.
 
 # Allow access to deployer.php from GitHub Actions (Apache 2.4+ syntax)
 # Without this, some hosts block requests from cloud provider IPs
@@ -22,17 +28,27 @@
 RewriteEngine On
 RewriteBase /
 
-# Don't rewrite requests for deployer.php
+# --- Custom content in extras/ takes precedence ---
+# If the path exists as a file in extras/, serve it from there
 RewriteCond %{REQUEST_URI} !^/deployer\.php$
-
-# Don't rewrite requests already going to site/
 RewriteCond %{REQUEST_URI} !^/site/
-
-# Don't rewrite requests for releases directory
+RewriteCond %{REQUEST_URI} !^/extras/
 RewriteCond %{REQUEST_URI} !^/releases/
+RewriteCond %{DOCUMENT_ROOT}/extras/$1 -f
+RewriteRule ^(.*)$ extras/$1 [L]
 
-# Only rewrite if site/ directory exists (skip before first deploy)
+# If the path exists as a directory in extras/ with an index.html, serve it from there
+RewriteCond %{REQUEST_URI} !^/deployer\.php$
+RewriteCond %{REQUEST_URI} !^/site/
+RewriteCond %{REQUEST_URI} !^/extras/
+RewriteCond %{REQUEST_URI} !^/releases/
+RewriteCond %{DOCUMENT_ROOT}/extras/$1/index.html -f
+RewriteRule ^(.*)$ extras/$1 [L]
+
+# --- Fall back to deployed site ---
+RewriteCond %{REQUEST_URI} !^/deployer\.php$
+RewriteCond %{REQUEST_URI} !^/site/
+RewriteCond %{REQUEST_URI} !^/extras/
+RewriteCond %{REQUEST_URI} !^/releases/
 RewriteCond %{DOCUMENT_ROOT}/site -d
-
-# Rewrite everything else to site/
 RewriteRule ^(.*)$ site/$1 [L]
