@@ -142,7 +142,14 @@ Final URLs: `https://api.chimeracomics.org/api/pub/media/mobile/page1.webp`
 - Author notes (conditional display)
 - Open Graph meta tags
 - **PHP Deployer** - Tested and working on Dreamhost (comic.the-ottoman.com)
-- **Manual deployment** - Successfully deployed via curl POST
+- **Node.js deploy script** - `scripts/deploy-to-host.js` zips and POSTs to deployer
+- **GitHub Actions workflow** - `.github/workflows/build-deploy.yml` tested via manual dispatch
+- **Creator extras/** - Custom content directory that survives deploys
+
+## GitHub Repository
+
+- **Remote:** https://github.com/heatloss/chimera-ssg
+- **Required variable:** `CMS_API_URL` (set in repo settings → Variables → Actions)
 
 ## PHP Deployer Setup (Tested on Dreamhost)
 
@@ -151,15 +158,16 @@ The deployer uses a `site/` subdirectory approach with .htaccess rewrites:
 ```
 ~/mycomic.com/
 ├── deployer.php      <- Receives ZIP uploads
-├── .htaccess         <- Rewrites requests to site/
+├── .htaccess         <- Rewrites requests, allows GitHub Actions access
 ├── releases/         <- Timestamped release folders
 │   └── 20260118-.../
-└── site/             <- Symlink to current release
+├── site/             <- Symlink to current release
+└── extras/           <- Creator-managed content (survives deploys)
 ```
 
 **Key files in `docs/`:**
 - `SAMPLE DEPLOYER.php.example` - PHP script for receiving deploys
-- `SAMPLE HTACCESS.example` - Apache rewrite rules
+- `SAMPLE HTACCESS.example` - Apache rewrite rules (includes cloud IP fix)
 
 **Setup steps for a new host:**
 1. Upload `deployer.php` to domain root
@@ -167,25 +175,26 @@ The deployer uses a `site/` subdirectory approach with .htaccess rewrites:
 3. Set a unique `$SECRET_KEY` in deployer.php
 4. Test: visit `https://yourdomain.com/deployer.php` → "Deployer ready"
 
+**Important .htaccess notes:**
+- Includes `<Files "deployer.php">Require all granted</Files>` - required for GitHub Actions to reach the deployer (some hosts block cloud provider IPs by default)
+- Supports `extras/` directory for creator-managed content that persists across deploys
+
 **Manual deploy test command:**
 ```bash
 cd _site && zip -r ../bundle.zip . && cd ..
 curl -X POST -F "secret=YOUR_SECRET" -F "bundle=@bundle.zip" https://yourdomain.com/deployer.php
 ```
 
+**Test via GitHub Actions (manual trigger):**
+1. Go to https://github.com/heatloss/chimera-ssg/actions
+2. Click "Build and Deploy Comic Site" → "Run workflow"
+3. Fill in: comic_slug, comic_id, deploy_url, deploy_secret
+
 ## What's NOT Yet Implemented
 
-### Node.js Deploy Script
-Need to create `scripts/deploy-to-host.js`:
-- Zip the `_site/` directory
-- POST to deployer URL with secret
-- This is what GitHub Actions will run
-
-### GitHub Actions Workflow
-Sample exists at `docs/FUTURE PUBLISHING - SAMPLE WORKFLOW.yml`. Need to:
-- Move to `.github/workflows/build-deploy.yml`
-- Ensure it calls the deploy script
-- Test end-to-end with CMS webhook
+### CMS Webhook Integration
+The CMS needs to send `repository_dispatch` webhooks to trigger builds automatically.
+Currently only manual dispatch has been tested.
 
 ### Social/Nav Links
 Currently empty arrays in the data. The manifest doesn't include:
@@ -213,8 +222,7 @@ npm start          # Dev server with hot reload
 
 ## Next Session Tasks
 
-1. **Node.js deploy script** - Create `scripts/deploy-to-host.js` (zips and POSTs)
-2. **GitHub Actions workflow** - Move from docs/ to .github/workflows/
-3. **Test CMS → GitHub webhook** - Trigger a build from the CMS
-4. **Social/nav links** - Coordinate with CMS to include in manifest
-5. **Theme system** (future) - Custom styling per comic
+1. **CMS webhook integration** - Configure CMS to send `repository_dispatch` to GitHub
+2. **Social/nav links** - Coordinate with CMS to include in manifest
+3. **RSS feed verification** - Test with live data
+4. **Theme system** (future) - Custom styling per comic
