@@ -1,0 +1,9 @@
+<aside class="social-links social-links--mobile">
+  <a
+    webc:for="link of $data.comic.socialLinks"
+    :href="link.url"
+    rel="external noopener"
+    :title="link.label"
+    @text="link.label"
+  ></a>
+</aside>

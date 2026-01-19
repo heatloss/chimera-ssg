@@ -1,0 +1,47 @@
+---
+permalink: about/index.html
+---
+<script webc:setup>
+const pageTitle = "About";
+const pageDescription = "Learn about " + this.comic.comic.title + " and its creators.";
+</script>
+
+<base-layout
+  webc:nokeep
+  :@comic="comic"
+  :@page-title="pageTitle"
+  :@page-description="pageDescription"
+>
+<main class="about-page">
+  <article class="about-content">
+    <h1>About <span @text="comic.comic.title"></span></h1>
+
+    <p @text="comic.comic.description"></p>
+
+    <h2>Genres</h2>
+    <p @text="comic.comic.genres.join(', ')"></p>
+
+    <section class="credits">
+      <h2>Credits</h2>
+      <div class="credits-list">
+        <div webc:for="credit of comic.comic.credits" class="credit-item">
+          <span class="credit-role" @text="credit.role"></span>
+          <span class="credit-name">
+            <a webc:if="credit.url" :href="credit.url" @text="credit.name"></a>
+            <span webc:else @text="credit.name"></span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <h2>Follow</h2>
+    <p>Stay updated with the latest pages:</p>
+    <ul>
+      <li webc:for="link of comic.socialLinks">
+        <a :href="link.url" rel="external noopener" @text="link.label"></a>
+      </li>
+      <li><a href="/feed.xml">RSS Feed</a></li>
+    </ul>
+  </article>
+</main>
+</base-layout>

@@ -1,0 +1,64 @@
+<script webc:setup>
+// Get navigation data from attributes
+const currentSlug = this.currentSlug;
+const pages = this.comic.allPages;
+const currentIndex = pages.findIndex(p => p.slug === currentSlug);
+
+const firstPage = pages[0];
+const lastPage = pages[pages.length - 1];
+const prevPage = currentIndex > 0 ? pages[currentIndex - 1] : null;
+const nextPage = currentIndex < pages.length - 1 ? pages[currentIndex + 1] : null;
+
+const isFirst = currentIndex === 0;
+const isLast = currentIndex === pages.length - 1;
+</script>
+
+<nav class="page-nav">
+  <a
+    :href="'/comic/' + firstPage.slug + '/'"
+    class="nav-btn nav-first"
+    :class="isFirst ? 'disabled' : ''"
+    :aria-disabled="isFirst ? 'true' : null"
+    aria-label="First page"
+    title="First"
+  >
+    <span class="nav-icon">&laquo;</span>
+    <span class="nav-label">First</span>
+  </a>
+
+  <a
+    :href="prevPage ? '/comic/' + prevPage.slug + '/' : '#'"
+    class="nav-btn nav-prev"
+    :class="!prevPage ? 'disabled' : ''"
+    :aria-disabled="!prevPage ? 'true' : null"
+    aria-label="Previous page"
+    title="Previous"
+  >
+    <span class="nav-icon">&lsaquo;</span>
+    <span class="nav-label">Prev</span>
+  </a>
+
+  <a
+    :href="nextPage ? '/comic/' + nextPage.slug + '/' : '#'"
+    class="nav-btn nav-next"
+    :class="!nextPage ? 'disabled' : ''"
+    :aria-disabled="!nextPage ? 'true' : null"
+    aria-label="Next page"
+    title="Next"
+  >
+    <span class="nav-label">Next</span>
+    <span class="nav-icon">&rsaquo;</span>
+  </a>
+
+  <a
+    :href="'/comic/' + lastPage.slug + '/'"
+    class="nav-btn nav-last"
+    :class="isLast ? 'disabled' : ''"
+    :aria-disabled="isLast ? 'true' : null"
+    aria-label="Latest page"
+    title="Latest"
+  >
+    <span class="nav-label">Latest</span>
+    <span class="nav-icon">&raquo;</span>
+  </a>
+</nav>

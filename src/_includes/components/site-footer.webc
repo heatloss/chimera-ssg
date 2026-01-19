@@ -1,0 +1,13 @@
+<footer class="site-footer">
+  <div class="footer-content">
+    <p class="copyright">
+      &copy; <span @text="new Date().getFullYear()"></span> <span @text="$data.comic.comic.credits[0]?.name || 'The Creator'"></span>. All rights reserved.
+    </p>
+
+    <nav class="footer-links">
+      <a href="https://chimeracomics.org">Powered by Chimera</a>
+      <a href="https://chimeracomics.org/terms">Terms</a>
+      <a href="https://chimeracomics.org/privacy">Privacy</a>
+    </nav>
+  </div>
+</footer>

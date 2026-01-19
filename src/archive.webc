@@ -1,0 +1,48 @@
+---
+permalink: archive/index.html
+---
+<script webc:setup>
+const pageTitle = "Archive";
+const pageDescription = "Browse all pages of " + this.comic.comic.title;
+</script>
+
+<base-layout
+  webc:nokeep
+  :@comic="comic"
+  :@page-title="pageTitle"
+  :@page-description="pageDescription"
+>
+<main class="archive">
+  <div class="archive-header">
+    <h1>Archive</h1>
+    <p>Browse all pages of <span @text="comic.comic.title"></span></p>
+  </div>
+
+  <div class="chapter-select">
+    <label for="chapter-jump" class="visually-hidden">Jump to chapter</label>
+    <select id="chapter-jump" onchange="location.href = this.value;">
+      <option value="">Jump to chapter...</option>
+      <option webc:for="chapter of comic.chapters" :value="'#chapter-' + chapter.id" @text="chapter.title"></option>
+    </select>
+  </div>
+
+  <section webc:for="chapter of comic.chapters" class="archive-chapter" :id="'chapter-' + chapter.id">
+    <h2 @text="chapter.title"></h2>
+    <div class="archive-grid">
+      <a
+        webc:for="page of chapter.pages"
+        :href="'/comic/' + page.slug + '/'"
+        class="archive-item"
+      >
+        <img
+          :src="comic.apiBase + page.thumbnail"
+          :alt="page.title"
+          loading="lazy"
+        >
+        <span class="archive-item-title" @text="page.chapterPageNumber === 0 ? 'Cover' : 'Page ' + page.chapterPageNumber"></span>
+        <span class="archive-item-date" @text="page.publishedDate | formatDate"></span>
+      </a>
+    </div>
+  </section>
+</main>
+</base-layout>

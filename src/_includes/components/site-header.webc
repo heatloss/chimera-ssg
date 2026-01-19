@@ -1,0 +1,23 @@
+<header class="site-header">
+  <div class="header-content">
+    <a href="/" class="site-title" @text="$data.comic.comic.title"></a>
+
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/archive/">Archive</a></li>
+        <li><a href="/about/">About</a></li>
+        <li webc:for="link of $data.comic.navLinks">
+          <a :href="link.url" rel="external" @text="link.label"></a>
+        </li>
+        <li><a href="/feed.xml" class="nav-rss" title="RSS Feed">RSS</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>

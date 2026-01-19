@@ -1,0 +1,28 @@
+{
+  "name": "chimera-ssg",
+  "version": "1.0.0",
+  "description": "11ty-based static site generator for Chimera CMS webcomics",
+  "type": "module",
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "build:prod": "NODE_ENV=production eleventy"
+  },
+  "keywords": [
+    "webcomic",
+    "11ty",
+    "eleventy",
+    "static-site-generator",
+    "chimera"
+  ],
+  "author": "Mike Stamm",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-plugin-rss": "^2.0.2",
+    "@11ty/eleventy-plugin-webc": "^0.11.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}

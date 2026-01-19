@@ -1,0 +1,32 @@
+# Chimera SSG Deployer - Apache Rewrite Rules
+#
+# This file works alongside deployer.php to enable atomic deployments
+# on shared hosting where the deployer lives in the web root.
+#
+# SETUP:
+# 1. Rename this file to .htaccess
+# 2. Upload to your domain's web root (same directory as deployer.php)
+#
+# HOW IT WORKS:
+# - All requests are rewritten to the site/ subdirectory
+# - deployer.php is excluded so it remains accessible
+# - Apache follows the site/ symlink transparently
+# - When a new release deploys, the symlink swaps and traffic shifts instantly
+
+RewriteEngine On
+RewriteBase /
+
+# Don't rewrite requests for deployer.php
+RewriteCond %{REQUEST_URI} !^/deployer\.php$
+
+# Don't rewrite requests already going to site/
+RewriteCond %{REQUEST_URI} !^/site/
+
+# Don't rewrite requests for releases directory
+RewriteCond %{REQUEST_URI} !^/releases/
+
+# Only rewrite if site/ directory exists (skip before first deploy)
+RewriteCond %{DOCUMENT_ROOT}/site -d
+
+# Rewrite everything else to site/
+RewriteRule ^(.*)$ site/$1 [L]

@@ -1,0 +1,34 @@
+---
+permalink: feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ comic.comic.title }}</title>
+  <subtitle>{{ comic.comic.tagline }}</subtitle>
+  <link href="{{ metadata.url }}/feed.xml" rel="self"/>
+  <link href="{{ metadata.url }}/"/>
+  <updated>{{ comic.navigation.lastPage.publishedDate | toDate | dateToRfc3339 }}</updated>
+  <id>{{ metadata.url }}/</id>
+  <author>
+    <name>{{ comic.comic.credits[0].name }}</name>
+  </author>
+  {%- for page in comic.allPages | reverse %}
+  {% if loop.index0 < 20 %}
+  <entry>
+    <title>{{ page.title }}</title>
+    <link href="{{ metadata.url }}/comic/{{ page.slug }}/"/>
+    <updated>{{ page.publishedDate | toDate | dateToRfc3339 }}</updated>
+    <id>{{ metadata.url }}/comic/{{ page.slug }}/</id>
+    <content type="html">
+      <![CDATA[
+        <img src="{{ page.image.desktop }}" alt="{{ page.altText or page.title }}" />
+        {% if page.authorNote %}
+        <p>{{ page.authorNote }}</p>
+        {% endif %}
+      ]]>
+    </content>
+  </entry>
+  {% endif %}
+  {%- endfor %}
+</feed>

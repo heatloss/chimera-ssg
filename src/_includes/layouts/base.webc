@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title @text="(pageTitle ? pageTitle + ' | ' : '') + $data.comic.comic.title"></title>
+
+  <meta name="description" :content="pageDescription || $data.comic.comic.tagline">
+  <meta name="author" :content="$data.comic.comic.credits[0]?.name || 'Unknown'">
+
+  <!-- Open Graph -->
+  <meta property="og:title" :content="(pageTitle ? pageTitle + ' | ' : '') + $data.comic.comic.title">
+  <meta property="og:description" :content="pageDescription || $data.comic.comic.tagline">
+  <meta property="og:image" :content="ogImage || ($data.comic.apiBase + $data.comic.comic.thumbnail)">
+  <meta property="og:type" :content="ogType || 'website'">
+
+  <link rel="alternate" type="application/rss+xml" :title="$data.comic.comic.title + ' RSS Feed'" href="/feed.xml" webc:keep>
+  <link rel="stylesheet" href="/css/styles.css" webc:keep>
+</head>
+<body>
+  <site-header></site-header>
+
+  <slot></slot>
+
+  <site-footer></site-footer>
+
+  <script src="/js/navigation.js" webc:keep></script>
+</body>
+</html>
