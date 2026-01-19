@@ -49,12 +49,6 @@
     <article class="comic-page">
       <header class="page-header">
         <h1 class="page-title" @text="page.title"></h1>
-        <time
-          class="page-date"
-          :datetime="new Date(page.publishedDate).toISOString().split('T')[0]"
-        >
-          Posted <span @text="formattedDate"></span>
-        </time>
       </header>
 
       <nav class="page-nav page-nav--top">
@@ -108,7 +102,7 @@
         <figure class="comic-image">
           <a
             :href="nav.next ? '/comic/' + nav.next.slug + '/' : '#'"
-            class="nav-btn nav-next"
+            class="page-next"
             :class="!nav.next ? 'disabled' : ''"
             :aria-disabled="!nav.next ? 'true' : null"
             aria-label="Next page"
@@ -175,9 +169,13 @@
           <span class="nav-icon">&raquo;</span>
         </a>
       </nav>
-
+      <time
+        class="page-date"
+        :datetime="new Date(page.publishedDate).toISOString().split('T')[0]"
+      >
+        Posted <span @text="formattedDate"></span>
+      </time>
       <social-links-mobile></social-links-mobile>
-
       <section class="author-note" webc:if="page.authorNote">
         <h2>Author's Note</h2>
         <div class="author-note-content">
@@ -186,9 +184,9 @@
       </section>
 
       <section class="comments-section">
-        <h2>Comments</h2>
+        <!-- <h2>Comments</h2> -->
         <div id="comments-container">
-          <p class="comments-placeholder">Comments loading...</p>
+          <!-- <p class="comments-placeholder">Comments loading...</p> -->
         </div>
       </section>
     </article>
