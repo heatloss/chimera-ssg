@@ -21,9 +21,9 @@
 
 # Allow access to deployer.php from GitHub Actions (Apache 2.4+ syntax)
 # Without this, some hosts block requests from cloud provider IPs
-<Files "deployer.php">
-    Require all granted
-</Files>
+
+# Allow all access (Apache 2.4+ syntax)
+Require all granted
 
 RewriteEngine On
 RewriteBase /

@@ -1,47 +1,126 @@
 ---
 permalink: about/index.html
 ---
+
 <script webc:setup>
-const pageTitle = "About";
-const pageDescription = "Learn about " + this.comic.comic.title + " and its creators.";
+  const pageTitle = 'About';
+  const pageDescription =
+    'Learn about ' + this.comic.comic.title + ' and its creators.';
 </script>
 
-<base-layout
-  webc:nokeep
-  :@comic="comic"
-  :@page-title="pageTitle"
-  :@page-description="pageDescription"
->
-<main class="about-page">
-  <article class="about-content">
-    <h1>About <span @text="comic.comic.title"></span></h1>
-
-    <p @text="comic.comic.description"></p>
-
-    <h2>Genres</h2>
-    <p @text="comic.comic.genres.join(', ')"></p>
-
-    <section class="credits">
-      <h2>Credits</h2>
-      <div class="credits-list">
-        <div webc:for="credit of comic.comic.credits" class="credit-item">
-          <span class="credit-role" @text="credit.role"></span>
-          <span class="credit-name">
-            <a webc:if="credit.url" :href="credit.url" @text="credit.name"></a>
-            <span webc:else @text="credit.name"></span>
-          </span>
-        </div>
+<base-layout webc:nokeep :@comic="comic" :@page-title="pageTitle" :@page-description="pageDescription">
+  <main class="about-page">
+    <div class="main-content">
+      <div class="about">
+        <h2>About The Comic</h2>
+        <p>
+          An adventure story set in an alternate-historical dieselpunk world,
+          <cite>The Automan’s Daughter</cite> follows military-school dropout
+          Aisha Osman and her industrialist uncle Siddig as they outwit bikers,
+          spies and kidnappers while gearing up for a tournament showdown with
+          the formidable Widowmaker mecha.
+        </p>
+        <h2>Setting</h2>
+        <p>
+          Following its decisive victory in the Great War, the Ottoman Empire
+          has united Europe, Africa and Asia. Its control of the world’s oil and
+          metal has made it a global superpower, although its vast wealth has
+          not always trickled out to the countries on the fringes of the Empire.
+          The annual Mecha Battle tournament keeps the citizens entertained, but
+          many can only support themselves by scavenging the empire’s discarded
+          machines.
+        </p>
+        <h2>Frequently Asked Questions</h2>
+        <dl>
+          <dt>How often does the comic update?</dt>
+          <dd>The comic updates every other Friday.</dd>
+          <dt>Where does the story take place?</dt>
+          <dd>In Tunisia, North Africa.</dd>
+          <dt>Are there ways to support the comic?</dt>
+          <dd>
+            Yes, several! You can vote for us on
+            <a href="https://www.topwebcomics.com/vote/25012" target="_blank">TopWebComics</a>, which helps us build our audience. Or you can support us
+            financially at our
+            <a href="https://www.patreon.com/luckbat" target="_blank">Patreon</a>.
+          </dd>
+        </dl>
+        <h2>Contact Us</h2>
+        <ul class="contact">
+          <li>
+            <span class="title">Penciler/Inker</span>&nbsp;<a class="name" href="http://the-ottoman.com/">Mike Stamm</a>
+            Mike is a film director, a comics writer, a podcaster, and web
+            developer.
+          </li>
+          <li>
+            <span class="title">Colorist</span>&nbsp;<a class="name" href="https://jackarais.neocities.org/aboutme">Jackarais</a>
+            Jack is the creator and artist of the webcomic
+            <a href="https://www.bicycleboy.net">Bicycle Boy</a>.
+          </li>
+          <li>
+            <span class="title">Past Artists</span>&nbsp;<a class="name" href="https://www.instagram.com/shadiaminart/">Shadia Amin</a>
+          </li>
+          <li>
+            <span class="title">Past Colorists</span>&nbsp;<a class="name" href="http://www.sarahstern.com/">Sarah Stern</a>
+            <a class="name" href="https://fcstresing.carbonmade.com/">Fred C. Stresing</a>
+            <a class="name" href="http://leemilewskiart.tumblr.com/">Lee Milewski</a>
+          </li>
+        </ul>
       </div>
-    </section>
-
-    <h2>Follow</h2>
-    <p>Stay updated with the latest pages:</p>
-    <ul>
-      <li webc:for="link of comic.socialLinks">
-        <a :href="link.url" rel="external noopener" @text="link.label"></a>
-      </li>
-      <li><a href="/feed.xml">RSS Feed</a></li>
-    </ul>
-  </article>
-</main>
+      <aside class="characters">
+        <h2>The Cast</h2>
+        <ul>
+          <li>
+            <img src="/images/char-aisha.jpg" alt="Aisha Headshot" />
+            <h3>Aisha Osman</h3>
+            <p>
+              Aisha’s been having a rough time since dropping out of the
+              Academy, but she’s working through it.
+            </p>
+          </li>
+          <li>
+            <img src="/images/char-siddig.jpg" alt="Sid Headshot" />
+            <h3>Siddig Khan</h3>
+            <p>
+              Former champion of the Mecha Battle Tournament and recently ousted
+              CEO of Khan Heavy Industries, Siddig is Aisha’s uncle.
+              Frequently&nbsp;drunk.
+            </p>
+          </li>
+          <li>
+            <img src="/images/char-ali.jpg" alt="Ali Headshot" />
+            <h3>Ali Ben Hassan</h3>
+            <p>
+              Siddig’s chauffeur and right-hand man. Although an excellent
+              driver, Ali is used to being unappreciated.
+            </p>
+          </li>
+          <li>
+            <img src="/images/char-osman.jpg" alt="Osman Headshot" />
+            <h3>Osman Osman</h3>
+            <p>
+              Aisha’s father is a skilled mechanic and mechanical engineer. He
+              runs his own salvage &amp; repair operation out of his back yard.
+            </p>
+          </li>
+          <li>
+            <img src="/images/char-tajjedigt.jpg" alt="Tajj Headshot" />
+            <h3>Tajjedigt Osman</h3>
+            <p>
+              Aisha’s mother is stern, but fair. Having abandoned her
+              counterintelligence training to become a stay-at-home mom,
+              Tajjedigt just wants to see Aisha go far in life.
+            </p>
+          </li>
+          <li>
+            <img src="/images/char-samir.jpg" alt="Samir Headshot" />
+            <h3>Samir LaCroix</h3>
+            <p>
+              A formidable competitor in the underground mecha battle circuit,
+              Samir has big dreams and an even bigger mech.
+            </p>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </main>
 </base-layout>
