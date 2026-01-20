@@ -43,11 +43,12 @@ CMS (Chimera) → GitHub Actions → SSG (11ty) → ZIP → Deployer (comic owne
 
 ### Layout/Components
 - `src/_includes/components/base-layout.webc` - Main layout component
+- `src/_includes/components/comic-page.webc` - Shared comic page layout (used by both comic.webc and index.webc)
 - `src/_includes/components/site-header.webc` - Header with navigation
 - `src/_includes/components/site-footer.webc` - Footer
-- `src/_includes/components/social-links-sidebar.webc` - Social links for desktop
-- `src/_includes/components/social-links-mobile.webc` - Social links for mobile
-- `src/_includes/components/page-nav.webc` - Navigation component (has issues, see below)
+- `src/_includes/components/social-links-sidebar.webc` - Social links for desktop (accepts `comic` prop)
+- `src/_includes/components/social-links-mobile.webc` - Social links for mobile (accepts `comic` prop)
+- `src/_includes/components/page-links.webc` - Creator nav links below comic image
 
 ### Configuration
 - `eleventy.config.js` - 11ty config with WebC plugin and HTML wrapper transform
@@ -121,6 +122,18 @@ WebC has limitations that required specific workarounds:
 <time :datetime="new Date(page.publishedDate).toISOString().split('T')[0]">
 ```
 
+### 5. WebC Prop Drilling
+**Problem:** WebC components don't inherit page data automatically. Using `$data.comic` or similar in a component doesn't work.
+
+**Solution:** Pass data explicitly as props:
+```webc
+<!-- Parent template -->
+<social-links-sidebar :@comic="comic.comic"></social-links-sidebar>
+
+<!-- Component uses `comic` directly, not $data.comic -->
+<a webc:for="link of comic.links" :href="link.url">...</a>
+```
+
 ## Image URLs
 
 The manifest contains relative image paths. Templates prepend `comic.apiBase`:
@@ -134,17 +147,19 @@ Final URLs: `https://api.chimeracomics.org/api/pub/media/mobile/page1.webp`
 
 - Fetching manifest from remote CMS API (api.chimeracomics.org)
 - Generating all comic pages with correct navigation
-- Home page showing latest comic page
+- Home page showing latest comic page (shares `comic-page` component with comic pages)
 - Archive page with chapter groupings
-- About page
+- About page with character images (`src/images/` passthrough)
 - Image URLs correctly constructed (pointing to CMS image optimizer)
 - Responsive images with srcset
 - Author notes (conditional display)
 - Open Graph meta tags
+- **Social links** - Rendered from CMS manifest data (Patreon, Bluesky, etc.)
 - **PHP Deployer** - Tested and working on Dreamhost (comic.the-ottoman.com)
 - **Node.js deploy script** - `scripts/deploy-to-host.js` zips and POSTs to deployer
 - **GitHub Actions workflow** - `.github/workflows/build-deploy.yml` tested via manual dispatch
 - **Creator extras/** - Custom content directory that survives deploys
+- **Static images** - `src/images/` copied to `_site/images/` via passthrough
 
 ## GitHub Repository
 
@@ -176,7 +191,8 @@ The deployer uses a `site/` subdirectory approach with .htaccess rewrites:
 4. Test: visit `https://yourdomain.com/deployer.php` → "Deployer ready"
 
 **Important .htaccess notes:**
-- Includes `<Files "deployer.php">Require all granted</Files>` - required for GitHub Actions to reach the deployer (some hosts block cloud provider IPs by default)
+- Requires `Require all granted` for GitHub Actions to reach the deployer (some hosts block cloud provider IPs by default)
+- On Dreamhost, the scoped `<Files "deployer.php">` directive doesn't work; use blanket `Require all granted` instead (security is maintained via the deploy secret)
 - Supports `extras/` directory for creator-managed content that persists across deploys
 
 **Manual deploy test command:**
@@ -195,13 +211,6 @@ curl -X POST -F "secret=YOUR_SECRET" -F "bundle=@bundle.zip" https://yourdomain.
 ### CMS Webhook Integration
 The CMS needs to send `repository_dispatch` webhooks to trigger builds automatically.
 Currently only manual dispatch has been tested.
-
-### Social/Nav Links
-Currently empty arrays in the data. The manifest doesn't include:
-- `socialLinks` (Patreon, Bluesky, etc.)
-- `navLinks` (Store, Extras, etc.)
-
-These need to be added to the CMS manifest or fetched from a separate endpoint.
 
 ### RSS Feed
 `src/feed.njk` exists but may need verification with live data.
@@ -223,6 +232,5 @@ npm start          # Dev server with hot reload
 ## Next Session Tasks
 
 1. **CMS webhook integration** - Configure CMS to send `repository_dispatch` to GitHub
-2. **Social/nav links** - Coordinate with CMS to include in manifest
-3. **RSS feed verification** - Test with live data
-4. **Theme system** (future) - Custom styling per comic
+2. **RSS feed verification** - Test with live data
+3. **Theme system** (future) - Custom styling per comic
