@@ -1,8 +1,8 @@
 <aside class="comic-sidebar">
-  <nav class="social-links social-links--sidebar">
-    <span class="social-links-label">Follow</span>
+  <nav class="links" webc:if="comic?.links?.length">
+    <span class="social-links-label">Links</span>
     <a
-      webc:for="link of $data.comic.socialLinks"
+      webc:for="link of comic.links"
       :href="link.url"
       rel="external noopener"
       :title="link.label"
