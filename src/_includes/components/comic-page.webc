@@ -73,9 +73,7 @@
         </a>
       </figure>
     </div>
-
-    <social-links-sidebar :@comic="comic.comic"></social-links-sidebar>
-
+    <page-links class="page-links" :@comic="comic.comic"></page-links>
     <nav class="page-nav page-nav--bottom">
       <a
         :href="'/comic/' + nav.first.slug + '/'"
@@ -122,13 +120,12 @@
         <span class="nav-icon">&raquo;</span>
       </a>
     </nav>
-
-    <section class="page-date">
-      <span>Posted: <time :datetime="new Date(page.publishedDate).toISOString().split('T')[0]" @text="formattedDate"></time></span>
+    <section
+      class="page-date"
+      :datetime="new Date(page.publishedDate).toISOString().split('T')[0]"
+    >
+      <span>Posted: <time @text="formattedDate"></time></span>
     </section>
-
-    <social-links-mobile :@comic="comic.comic"></social-links-mobile>
-
     <section class="author-note" webc:if="page.authorNote">
       <h2>Author's Note</h2>
       <div class="author-note-content">
@@ -138,7 +135,6 @@
 
     <section class="comments-section" webc:if="showComments !== false">
       <div id="comments-container" :data-comment-id="commentId || page.slug">
-        <!-- Comments will be injected here via JavaScript -->
       </div>
     </section>
   </article>
