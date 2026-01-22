@@ -73,7 +73,7 @@
         </a>
       </figure>
     </div>
-    <page-links class="page-links" :@comic="comic.comic"></page-links>
+    <page-links class="page-links" :@comic="comic.meta"></page-links>
     <nav class="page-nav page-nav--bottom">
       <a
         :href="'/comic/' + nav.first.slug + '/'"
@@ -134,8 +134,11 @@
     </section>
 
     <section class="comments-section" webc:if="showComments !== false">
-      <div id="comments-container" :data-comment-id="commentId || page.slug">
+      <div id="chimera-comments" 
+           :data-page-id="page.slug" 
+           :data-comic-id="comic.meta.slug">
       </div>
+      <script src="https://chimera-comments.mike-17c.workers.dev/embed.js" webc:keep></script>
     </section>
   </article>
 </main>

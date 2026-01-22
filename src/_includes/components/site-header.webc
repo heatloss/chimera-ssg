@@ -1,6 +1,6 @@
 <header class="site-header">
   <div class="header-content">
-    <a href="/" class="site-title" @text="$data.comic.comic.title"></a>
+    <a href="/" class="site-title" @text="$data.comic.meta.title"></a>
 
     <nav class="site-nav">
       <ul>

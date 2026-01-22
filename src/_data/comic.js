@@ -47,7 +47,7 @@ export default async function() {
   const navLinks = manifest.navLinks || [];
 
   return {
-    comic: manifest.comic,
+    meta: manifest.meta,
     chapters: manifest.chapters,
     allPages,
     navigation,

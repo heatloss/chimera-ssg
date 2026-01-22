@@ -3,7 +3,7 @@ permalink: archive/index.html
 ---
 <script webc:setup>
 const pageTitle = "Archive";
-const pageDescription = "Browse all pages of " + this.comic.comic.title;
+const pageDescription = "Browse all pages of " + this.comic.meta.title;
 </script>
 
 <base-layout
@@ -15,7 +15,7 @@ const pageDescription = "Browse all pages of " + this.comic.comic.title;
 <main class="archive">
   <div class="archive-header">
     <h1>Archive</h1>
-    <p>Browse all pages of <span @text="comic.comic.title"></span></p>
+    <p>Browse all pages of <span @text="comic.meta.title"></span></p>
   </div>
 
   <div class="chapter-select">

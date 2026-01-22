@@ -18,7 +18,7 @@
       };
     },
     pageTitle: () => null,
-    pageDescription: (data) => data.comic.comic.tagline,
+    pageDescription: (data) => data.comic.meta.tagline,
     ogImage: (data) => data.comic.apiBase + data.comic.navigation.lastPage.image.desktop
   }
 }

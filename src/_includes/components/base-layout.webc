@@ -1,18 +1,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title @text="(pageTitle ? pageTitle + ' | ' : '') + comic.comic.title"></title>
+  <title @text="(pageTitle ? pageTitle + ' | ' : '') + comic.meta.title"></title>
 
-  <meta name="description" :content="pageDescription || comic.comic.tagline">
-  <meta name="author" :content="comic.comic.credits[0]?.name || 'Unknown'">
+  <meta name="description" :content="pageDescription || comic.meta.tagline">
+  <meta name="author" :content="comic.meta.credits[0]?.name || 'Unknown'">
 
   <!-- Open Graph -->
-  <meta property="og:title" :content="(pageTitle ? pageTitle + ' | ' : '') + comic.comic.title">
-  <meta property="og:description" :content="pageDescription || comic.comic.tagline">
-  <meta property="og:image" :content="ogImage || (comic.apiBase + comic.comic.thumbnail)">
+  <meta property="og:title" :content="(pageTitle ? pageTitle + ' | ' : '') + comic.meta.title">
+  <meta property="og:description" :content="pageDescription || comic.meta.tagline">
+  <meta property="og:image" :content="ogImage || (comic.apiBase + comic.meta.thumbnail)">
   <meta property="og:type" :content="ogType || 'website'">
 
-  <link rel="alternate" type="application/rss+xml" :title="comic.comic.title + ' RSS Feed'" href="/feed.xml" webc:keep>
+  <link rel="alternate" type="application/rss+xml" :title="comic.meta.title + ' RSS Feed'" href="/feed.xml" webc:keep>
   <link rel="stylesheet" href="/css/base.css" webc:keep>
   <link rel="stylesheet" href="/css/theme.css" webc:keep>
   <link rel="stylesheet" href="/css/page.css" webc:keep>

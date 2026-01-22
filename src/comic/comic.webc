@@ -29,7 +29,7 @@
       });
     },
     pageTitle: (data) => data.page.title,
-    pageDescription: (data) => data.page.altText || data.comic.comic.tagline,
+    pageDescription: (data) => data.page.altText || data.comic.meta.tagline,
     ogImage: (data) => data.comic.apiBase + data.page.image.desktop,
     ogType: () => "article"
   }

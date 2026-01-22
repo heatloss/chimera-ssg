@@ -5,7 +5,7 @@ permalink: about/index.html
 <script webc:setup>
   const pageTitle = 'About';
   const pageDescription =
-    'Learn about ' + this.comic.comic.title + ' and its creators.';
+    'Learn about ' + this.comic.meta.title + ' and its creators.';
 </script>
 
 <base-layout webc:nokeep :@comic="comic" :@page-title="pageTitle" :@page-description="pageDescription">
