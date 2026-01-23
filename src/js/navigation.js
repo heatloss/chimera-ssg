@@ -45,3 +45,15 @@
     });
   }
 })();
+
+/**
+ * Content Warning Reveal
+ */
+(function() {
+  document.addEventListener('click', function(e) {
+    var revealBtn = e.target.closest('.content-warning-reveal');
+    if (revealBtn) {
+      revealBtn.closest('.comic-area').classList.add('revealed');
+    }
+  });
+})();
